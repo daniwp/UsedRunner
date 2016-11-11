@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-default bg-faded">
+                    <a class="navbar-brand" href="#">The Used Runner</a>
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">About</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="search-bar">
+                    <div id="filter-panel" class="filter-panel">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <label class="filter-col" style="margin-right:0;" for="pref-search">Search:</label>
+                                        <input type="text" class="form-control input-sm" id="pref-search">
+                                    </div><!-- form group [search] -->
+                                    <div class="form-group">
+                                        <label class="filter-col" style="margin-right:0;" for="pref-perpage">Categories:</label>
+                                        <select id="pref-perpage" class="form-control">
+                                            <option value="2">2</option>
+                                        </select>
+                                    </div> <!-- form group [rows] -->
+                                    <div class="form-group">
+                                        <label class="filter-col" style="margin-right:0;" for="pref-orderby">Order by:</label>
+                                        <select id="pref-orderby" class="form-control">
+                                            <option>Descendent</option>
+                                        </select>
+                                    </div> <!-- form group [order by] -->
+                                    <div class="form-group">
+                                        <div class="checkbox" style="margin-left:10px; margin-right:10px;">
+                                            <label><input type="checkbox"> Ingested</label>
+                                        </div>
+                                        <div class="checkbox" style="margin-left:10px; margin-right:10px;">
+                                            <label><input type="checkbox"> Automated</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-default filter-col">
+                                            <span class="glyphicon glyphicon-record"></span> Save Settings
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
