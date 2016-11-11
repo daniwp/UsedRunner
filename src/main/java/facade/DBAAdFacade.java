@@ -6,7 +6,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import jsonconverter.DBAAdConverter;
 
 public class DBAAdFacade implements IAdFacade {
@@ -40,7 +39,7 @@ public class DBAAdFacade implements IAdFacade {
     }
 
     public static void main(String[] args) {
-        for (SimpleAd ad : new DBAAdFacade().getSpecificAds("", "")) {
+        for (SimpleAd ad : new DBAAdFacade().getSpecificAds("hej", "")) {
             System.out.println(ad.getPrice());
         }
     }

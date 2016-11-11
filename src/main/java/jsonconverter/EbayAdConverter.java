@@ -10,6 +10,10 @@ import com.google.gson.JsonParser;
 import entity.SimpleAd;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 public class EbayAdConverter implements IAdConverter {
 
@@ -30,6 +34,12 @@ public class EbayAdConverter implements IAdConverter {
         return gson;
     }
 
+    public double convert(double amount) {
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target("http://quote.yahoo.com/d/quotes.csv?s=USDDKK=X&f=l1&e=.csv");
+        return Double.parseDouble(target.request(MediaType.TEXT_HTML).get(String.class)) * amount;
+    }
+
     @Override
     public List<SimpleAd> getAdFromJson(String json) {
         List<SimpleAd> ads = new ArrayList();
@@ -45,6 +55,7 @@ public class EbayAdConverter implements IAdConverter {
                 thumbnail = jsonAd.get("galleryURL").getAsString();
             }
             double price = jsonAd.getAsJsonArray("sellingStatus").get(0).getAsJsonObject().getAsJsonArray("currentPrice").get(0).getAsJsonObject().get("__value__").getAsDouble();
+            price = convert(price);
             SimpleAd sAd = new SimpleAd(title, adLink, thumbnail, price);
             ads.add(sAd);
         }
@@ -55,5 +66,10 @@ public class EbayAdConverter implements IAdConverter {
     @Override
     public String getJsonFromAds(List<SimpleAd> ad) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println(new EbayAdConverter().convert(200));
     }
 }

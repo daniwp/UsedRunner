@@ -2,8 +2,10 @@ facade\IAdFacade.class
 jsonconverter\IAdConverter.class
 rest\AdResource.class
 jsonconverter\EbayAdConverter.class
+controller\IAdController.class
 rest\ApplicationConfig.class
 facade\DBAAdFacade.class
 jsonconverter\DBAAdConverter.class
 facade\EbayAdFacade.class
 entity\SimpleAd.class
+controller\AdController.class

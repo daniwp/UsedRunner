@@ -1,6 +1,6 @@
 package rest;
 
-import facade.DBAAdFacade;
+import facade.EbayAdFacade;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
@@ -45,6 +45,6 @@ public class AdResource {
             }
         }
 
-        return Response.ok(DBAAdConverter.getClassInstance().getJsonFromAds(DBAAdFacade.getClassInstance().getSpecificAds(searchText, priceRange))).build();
+        return Response.ok(DBAAdConverter.getClassInstance().getJsonFromAds(new EbayAdFacade().getSpecificAds(searchText, priceRange))).build();
     }
 }
