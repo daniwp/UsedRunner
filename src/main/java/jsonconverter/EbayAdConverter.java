@@ -8,6 +8,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entity.SimpleAd;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.client.Client;
@@ -40,11 +42,25 @@ public class EbayAdConverter implements IAdConverter {
         return Double.parseDouble(target.request(MediaType.TEXT_HTML).get(String.class));
     }
 
+    public static double round(double value, int places) {
+        if (places < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
     @Override
     public List<SimpleAd> getAdFromJson(String json) {
         List<SimpleAd> ads = new ArrayList();
         double rate = getRate();
         JsonArray jsonArr = new JsonParser().parse(json).getAsJsonObject().getAsJsonArray("findItemsByKeywordsResponse").get(0).getAsJsonObject().getAsJsonArray("searchResult").get(0).getAsJsonObject().getAsJsonArray("item");
+
+        if (jsonArr == null) {
+            return ads;
+        }
 
         for (JsonElement e : jsonArr) {
             JsonObject jsonAd = e.getAsJsonObject();
@@ -57,7 +73,7 @@ public class EbayAdConverter implements IAdConverter {
             }
             double price = jsonAd.getAsJsonArray("sellingStatus").get(0).getAsJsonObject().getAsJsonArray("currentPrice").get(0).getAsJsonObject().get("__value__").getAsDouble();
             price *= rate;
-            SimpleAd sAd = new SimpleAd(title, adLink, thumbnail, price, "EBAY");
+            SimpleAd sAd = new SimpleAd(title, adLink, thumbnail, round(price, 2), "EBAY");
             ads.add(sAd);
         }
 

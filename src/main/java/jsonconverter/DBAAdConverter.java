@@ -39,7 +39,6 @@ public class DBAAdConverter implements IAdConverter {
             JsonObject jsonAd = e.getAsJsonObject();
 
             String title = jsonAd.get("title").getAsString();
-            String description = jsonAd.get("description").getAsString();
             String adLink = jsonAd.getAsJsonObject("ad-url").get("href").getAsString();
             String thumbnail = "";
             if (jsonAd.getAsJsonArray("pictures").size() > 0) {
@@ -47,8 +46,6 @@ public class DBAAdConverter implements IAdConverter {
             }
             double price = jsonAd.get("price").getAsInt();
             SimpleAd sAd = new SimpleAd(title, adLink, thumbnail, price, "DBA");
-            sAd.setZipcode(jsonAd.getAsJsonObject("ad-address").get("zip-code").getAsInt());
-            sAd.setDescription(description);
             ads.add(sAd);
         }
 
