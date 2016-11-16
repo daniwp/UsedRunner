@@ -11,6 +11,7 @@ public class SimpleAd {
     private String additionalInfo;
     private int zipcode;
     private String city;
+    private String dealer;
     private String adLink;
     private String category;
     private String phone;
@@ -21,11 +22,12 @@ public class SimpleAd {
     public SimpleAd() {
     }
 
-    public SimpleAd(String title, String adLink, String thumbnail, double price) {
+    public SimpleAd(String title, String adLink, String thumbnail, double price, String dealer) {
         this.title = title;
         this.adLink = adLink;
         this.thumbnail = thumbnail;
         this.price = price;
+        this.dealer = dealer;
     }
 
     public double getPrice() {

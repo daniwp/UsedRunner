@@ -35,9 +35,9 @@ public class DBAAdFacade implements IAdFacade {
     public List<SimpleAd> getSpecificAds(String searchText, String priceRange) {
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("https://api.dba.dk/api/v2/ads/cassearch?q=" + searchText + "&p=" + priceRange);
-        return DBAAdConverter.getClassInstance().getAdFromJson(target.request(MediaType.APPLICATION_JSON).get(String.class));
+        return DBAAdConverter.getClassInstance().getAdFromJson(target.request(MediaType.APPLICATION_JSON).header("dbaapikey", "087157d7-84d5-4f2b-1d02-08d282f6c857").get(String.class));
     }
-
+    
     public static void main(String[] args) {
         for (SimpleAd ad : new DBAAdFacade().getSpecificAds("hej", "")) {
             System.out.println(ad.getPrice());

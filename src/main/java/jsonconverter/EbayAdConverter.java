@@ -34,16 +34,17 @@ public class EbayAdConverter implements IAdConverter {
         return gson;
     }
 
-    public double convert(double amount) {
+    public double getRate() {
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://quote.yahoo.com/d/quotes.csv?s=USDDKK=X&f=l1&e=.csv");
-        return Double.parseDouble(target.request(MediaType.TEXT_HTML).get(String.class)) * amount;
+        return Double.parseDouble(target.request(MediaType.TEXT_HTML).get(String.class));
     }
 
     @Override
     public List<SimpleAd> getAdFromJson(String json) {
         List<SimpleAd> ads = new ArrayList();
-        JsonArray jsonArr = new JsonParser().parse(json).getAsJsonObject().get("findItemsByKeywordsResponse").getAsJsonArray().get(0).getAsJsonObject().get("searchResult").getAsJsonArray().get(0).getAsJsonObject().get("item").getAsJsonArray();
+        double rate = getRate();
+        JsonArray jsonArr = new JsonParser().parse(json).getAsJsonObject().getAsJsonArray("findItemsByKeywordsResponse").get(0).getAsJsonObject().getAsJsonArray("searchResult").get(0).getAsJsonObject().getAsJsonArray("item");
 
         for (JsonElement e : jsonArr) {
             JsonObject jsonAd = e.getAsJsonObject();
@@ -55,8 +56,8 @@ public class EbayAdConverter implements IAdConverter {
                 thumbnail = jsonAd.get("galleryURL").getAsString();
             }
             double price = jsonAd.getAsJsonArray("sellingStatus").get(0).getAsJsonObject().getAsJsonArray("currentPrice").get(0).getAsJsonObject().get("__value__").getAsDouble();
-            price = convert(price);
-            SimpleAd sAd = new SimpleAd(title, adLink, thumbnail, price);
+            price *= rate;
+            SimpleAd sAd = new SimpleAd(title, adLink, thumbnail, price, "EBAY");
             ads.add(sAd);
         }
 
@@ -70,6 +71,5 @@ public class EbayAdConverter implements IAdConverter {
 
     public static void main(String[] args) {
 
-        System.out.println(new EbayAdConverter().convert(200));
     }
 }

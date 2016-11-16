@@ -1,5 +1,7 @@
 package facade;
 
+import com.google.gson.Gson;
+import controller.AdController;
 import entity.SimpleAd;
 import java.io.IOException;
 import java.util.List;
@@ -10,6 +12,15 @@ import javax.ws.rs.core.MediaType;
 import jsonconverter.EbayAdConverter;
 
 public class EbayAdFacade implements IAdFacade {
+
+    private static EbayAdFacade instance = null;
+
+    public static EbayAdFacade getClassInstance() {
+        if (instance == null) {
+            instance = new EbayAdFacade();
+        }
+        return instance;
+    }
 
     @Override
     public List<SimpleAd> getRandom() {
@@ -35,7 +46,7 @@ public class EbayAdFacade implements IAdFacade {
     }
 
     public static void main(String[] args) {
-        System.out.println(new EbayAdFacade().getSpecificAds("Harry+Potter", "24-25").size());
+        System.out.println(new Gson().toJson(AdController.getClassInstance().getSearchResults("hej", "")));
     }
 
 }
